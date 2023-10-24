@@ -20,8 +20,9 @@ rigthlinks = rightside.find_elements(By.TAG_NAME,'a')
 
 links = leftlinks + rigthlinks
 for link in links:
-    linklist.append(link.get_attribute("href"))#numpye çevirilcek
+    linklist.append(link.get_attribute("href"))#numpye ï¿½evirilcek
 linklist = np.array(linklist)
-#þimdi bunu bir fonskiyon þekline çevirip linklisti bize döndürecek þekilde yazalým
-#her bir listeyi bundleappler ve diðerleri olucak þekilde katagorize edelim
+#ï¿½imdi bunu bir fonskiyon ï¿½ekline ï¿½evirip linklisti bize dï¿½ndï¿½recek ï¿½ekilde yazalï¿½m
+#her bir listeyi bundleappler ve diï¿½erleri olucak ï¿½ekilde katagorize edelim
 print(separete(linklist))
+print("fksdifÅŸ")
