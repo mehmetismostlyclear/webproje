@@ -25,4 +25,3 @@ linklist = np.array(linklist)
 #�imdi bunu bir fonskiyon �ekline �evirip linklisti bize d�nd�recek �ekilde yazal�m
 #her bir listeyi bundleappler ve di�erleri olucak �ekilde katagorize edelim
 print(separete(linklist))
-print("fksdifş")
