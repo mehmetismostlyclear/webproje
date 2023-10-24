@@ -5,10 +5,11 @@ import time
 import numpy as np
 
 from webscrape.siteseparator import separete
+
 browser = webdriver.Edge()
 linklist = []
 browser.get('https://www.bundle.app/gundem')
-for i in range(0, 5):
+for i in range(0, 1):
     browser.execute_script("window.scrollBy(0, 500);")
     time.sleep(2)
 
