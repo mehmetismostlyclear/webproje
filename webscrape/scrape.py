@@ -6,10 +6,10 @@ import time
 import numpy as np
 from webscrape.csvWriter import csvWriter
 from webscrape.siteseparator import separete
-#selenium ile web sitesini açar
+#selenium ile web sitesini aï¿½ar
 browser = webdriver.Edge()
 linklist = []
-browser.get('https://www.bundle.app/gundem') # bunu diðerleri için de oluþturmamýz lazým
+browser.get('https://www.bundle.app/gundem') # bunu diï¿½erleri iï¿½in de oluï¿½turmamï¿½z lazï¿½m
 #scroll eder
 for i in range(0, 20):
     browser.execute_script("window.scrollBy(0, 500);")
@@ -22,12 +22,12 @@ leftlinks = leftside.find_elements(By.TAG_NAME, 'a')
 rigthlinks = rightside.find_elements(By.TAG_NAME,'a')
 
 links = leftlinks + rigthlinks
-#asýl linkleri
+#asï¿½l linkleri
 for link in links:
     linklist.append(link.get_attribute("href"))
 linklist = np.array(linklist)
 #bundlelinklerini bulma
 bundlelinks ,otherlinks = separete(linklist)
-#içeriði ve kaynaðý bulup csvye yazdýrma
+#iï¿½eriï¿½i ve kaynaï¿½ï¿½ bulup csvye yazdï¿½rma
 csv = csvWriter(bundlelinks)
 csv.bundletextGenerate()

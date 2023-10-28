@@ -13,7 +13,7 @@ class csvWriter:
             soup = BeautifulSoup(html , 'html.parser')
             #icergi al
             divisonText = soup.findChild('div', {'class': 'bundleXPathBody'})
-            #kaynagý al
+            #kaynagï¿½ al
             sourceText = soup.findChild('p', {'class': 'detailNewsReadText'})
             
             try:

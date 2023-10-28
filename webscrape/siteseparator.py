@@ -10,5 +10,5 @@ def separete(linklists):
             otherlinks.append(link)
             
     print(len(bundlelinks), "bundlelarin uzunlugu")
-        #devamını burda bir kaç tane daha ayıralım
+        #devamï¿½nï¿½ burda bir kaï¿½ tane daha ayï¿½ralï¿½m
     return bundlelinks, otherlinks
