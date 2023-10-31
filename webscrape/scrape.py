@@ -18,7 +18,7 @@ linklist = []
 #scroll eder
 def get_links():
     linklist=[]
-    for i in range(0, 50):
+    for i in range(0, 20):
         browser.execute_script("window.scrollBy(0, 500);")
         time.sleep(2)
 

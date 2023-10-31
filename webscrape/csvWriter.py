@@ -55,8 +55,8 @@ class csvWriter:
             alltext=""
             for text in divisionText:
                 ptext=text.findChildren('p',{'class':'bbc-hhl7in e17g058b0'})
-                for p in ptext:
-                    text=p.get_text()
+                for i in ptext:
+                    text=i.get_text()
                     alltext+=text
            
             
@@ -64,17 +64,24 @@ class csvWriter:
         for link in self.hurriyetlinks:
             response=requests.get(link)
             html=response.text
+            alltext=""
             soup=BeautifulSoup(html,'html.parser')
-                #divisionText
-                #sourceText
-            
+            divisionText=soup.findChild('div',{'class':"news-content readingTime"})
+            for i in divisionText:
+                text=i.get_text()
+                alltext+=text
+                
     def donanimtextGenerate(self):
         for link in self.donanimlinks: 
             response=requests.get(link)
-            html=response.text
-            soup=BeautifulSoup(html,'html.parser')
-            # divisionText
-            # sourceText
+            alltext=""
+        soup=BeautifulSoup(html,'html.parser')
+        divisionText=soup.findChild('section',{'class':"kolon yazi"})
+        divisionText=divisionText.find_all('p')
+        for i in divisionText:
+            text=i.get_text()
+            alltext+=text
+        
             
     def ekonomimtextGenerate(self):
         for link in self.ekonomimlinks:

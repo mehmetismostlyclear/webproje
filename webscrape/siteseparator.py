@@ -26,10 +26,10 @@ def separete(linklists):
     print(len(bundlelinks), "bundlelarin uzunlugu")
         #devam�n� burda bir ka� tane daha ay�ral�
 
-    print(len(np.array(bbclinks)), "")
-    print(len(np.array(ekonomimlinks)))
-    print(len(np.array(hurriyetlinks)))
-    print(len(np.array(donanimlinks)))
-    print(len(np.array(gazeteoksijenlinks)))
-    print(len(np.array(otherlinks)))
+    print(len(np.array(bbclinks)), "bbc")
+    print(len(np.array(ekonomimlinks)),"ekonomim")
+    print(len(np.array(hurriyetlinks)),"hurriyet")
+    print(len(np.array(donanimlinks)),  "donanim" )
+    print(len(np.array(gazeteoksijenlinks)),"gazeteoksijen")
+    print((np.array(otherlinks)))
     return bundlelinks,bbclinks,hurriyetlinks,donanimlinks,ekonomimlinks,gazeteoksijenlinks
