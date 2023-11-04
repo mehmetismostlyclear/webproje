@@ -7,6 +7,10 @@ def separete(linklists):
     ekonomimlinks=[]
     gazeteoksijenlinks=[]
     otherlinks=[]
+    bloomberghtlinks=[]
+    kayiprihtimlinks=[]
+    getmidaslinks=[]
+    haberturklinks=[]
     for link in linklists:
         if "bundle.app" in link:
             bundlelinks.append(link)
@@ -20,6 +24,14 @@ def separete(linklists):
             ekonomimlinks.append(link) 
         elif 'gazeteoksijen.com'in link:
             gazeteoksijenlinks.append(link)
+        elif 'bloomberght.com'in link:
+            bloomberghtlinks.append(link)
+        elif 'kayiprihtim.com' in link:
+            kayiprihtimlinks.append(link)
+        elif 'getmidas.com'in link:
+            getmidaslinks.append(link)
+        elif 'haberturk.com' in link:
+            haberturklinks.append(link)
         else:
             otherlinks.append(link)
             
@@ -32,4 +44,4 @@ def separete(linklists):
     print(len(np.array(donanimlinks)),  "donanim" )
     print(len(np.array(gazeteoksijenlinks)),"gazeteoksijen")
     print((np.array(otherlinks)))
-    return bundlelinks,bbclinks,hurriyetlinks,donanimlinks,ekonomimlinks,gazeteoksijenlinks
+    return bundlelinks,bbclinks,hurriyetlinks,donanimlinks,ekonomimlinks,gazeteoksijenlinks,bloomberghtlinks,kayiprihtimlinks,getmidaslinks,haberturklinks
