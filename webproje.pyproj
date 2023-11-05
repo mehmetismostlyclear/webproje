@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6d1bdbc4-b96e-4ba5-8910-cccb692e45c4}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>webscrape\scrape.py</StartupFile>
+    <StartupFile>webscrape\flipboardscrape.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -19,6 +19,7 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="webscrape\flipboardscrape.py" />
     <Compile Include="webscrape\scrape.py" />
     <Compile Include="webscrape\siteSeparator.py" />
   </ItemGroup>

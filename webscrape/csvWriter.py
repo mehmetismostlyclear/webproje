@@ -7,7 +7,8 @@ import requests
 import pandas as pd
 
 class csvWriter:
-    def __init__(self, bundlelinks=None,bbclinks=None,hurriyetlinks=None,donanimlinks=None,ekonomimlinks=None,gazeteoksijenlinks=None,bloomberghtlinks=None,kayiprihtimlinks=None,getmidaslinks=None,haberturklinks=None):
+    def __init__(self, bundlelinks=None,bbclinks=None,hurriyetlinks=None,donanimlinks=None,ekonomimlinks=None,gazeteoksijenlinks=None
+                 ,bloomberghtlinks=None,kayiprihtimlinks=None,getmidaslinks=None,ntvlinks=None,haberturklinks=None, milliyetlinks=None):
         self.bundlelinks = bundlelinks
         self.bbclinks = bbclinks
         self.hurriyetlinks = hurriyetlinks
@@ -18,6 +19,8 @@ class csvWriter:
         self.kayiprihtimlinks=kayiprihtimlinks
         self.getmidaslinks=getmidaslinks
         self.haberturklinks=haberturklinks    
+        self.ntvlinks=ntvlinks
+        self.milliyetlinks=milliyetlinks
         self.sourcelist = []
         self.df = pd.DataFrame(columns=['source', 'content'])
     def bundletextGenerate(self):
@@ -203,8 +206,31 @@ class csvWriter:
                 text=i.get_text()
                 alltext+=text
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['haberturk'], 'content': [alltext]})])
-
             
+    def ntvtextGenerator(self):
+        for link in self.ntvlinks:
+            response=requests.get(link)
+            html=response.text
+            soup=BeautifulSoup(html,'html.parser')
+            divisionText=soup.findChild('div',{'class':'content-news-tag-selector'})
+            divisionText=divisionText.find_all('p')
+            for i in divisionText:
+                text=i.get_text()
+                alltext+=text
+            self.df = pd.concat([self.df, pd.DataFrame({'source': ['NTV'], 'content': [alltext]})])
+    def milliyettextGenerator(self):
+        for link in self.ntvlinks:
+            response=requests.get(link)
+            html=response.text
+            soup=BeautifulSoup(html,'html.parser')
+            divisionText=soup.findChild('div',{'class':'news-content news-content readingTime'})
+            divisionText=divisionText.find_all('p')
+            for i in divisionText:
+                text=i.get_text()
+                alltext+=text
+            self.df = pd.concat([self.df, pd.DataFrame({'source': ['NTV'], 'content': [alltext]})])
+
+
     def write_list_to_csv(self):
         self.df.to_csv('11-3-2023.csv', index=False)
         
