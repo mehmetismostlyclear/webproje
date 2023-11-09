@@ -19,7 +19,7 @@ linklist = []
 #scroll eder
 def get_links():
     linklist=[]
-    for i in range(0, 5):
+    for i in range(0, 20):
         browser.execute_script("window.scrollBy(0, 600);")
         time.sleep(2)
 
@@ -52,43 +52,50 @@ def mineNow():
     linklist.extend(list1)
 def minePast():
     web_archive_links = [
-    "http://web.archive.org/web/20220126160349/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220405085224/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220409002451/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220428215028/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220517052109/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220528165440/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220607064707/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220712170452/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220823033802/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220908040209/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20220919052609/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20221003112016/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20221016024629/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20221208072443/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20230210173954/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20230326064958/https://www.bundle.app/gundem",
-    "http://web.archive.org/web/20230702193005/https://www.bundle.app/gundem"]
+    #"http://web.archive.org/web/20220126160349/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220405085224/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220409002451/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220428215028/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220517052109/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220528165440/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220607064707/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220712170452/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220823033802/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220908040209/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20220919052609/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20221003112016/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20221016024629/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20221208072443/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20230210173954/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20230326064958/https://www.bundle.app/gundem",
+    #"http://web.archive.org/web/20230702193005/https://www.bundle.app/gundem"
+    ]
     for link in web_archive_links:
         try:
             browser.get(link)
             list1 =get_links()
-            linklist.extend(list1)
+            date = re.findall(r'\d+', link)
+            return list1, date
+            time.sleep(4)
         except:
             print("bu link çalışmadı", link)
         
-#mineNow()
-minePast()
-bundlelinks,bbclinks,hurriyetlinks,donanimlinks,ekonomimlinks,gazeteoksijenlinks,bloomberghtlinks,kayiprihtimlinks,getmidaslinks,haberturklinks = separete(linklist)
-#i�eri�i ve kayna�� bulup csvye yazd�rma
-csv = csvWriter(bundlelinks,bbclinks,hurriyetlinks, donanimlinks,ekonomimlinks,gazeteoksijenlinks,bloomberghtlinks,haberturklinks)
-#csv.bundletextGenerate()
-csv.bbctextGenerate()
-csv.donanimtextGenerate()
-csv.gazeteoksijentextGenerator()
-csv.ekonomimtextGenerate()
-csv.hurriyettextGenerate()
-csv.bloomberghttextGenerator()
-csv.haberturktextGenerator()
-csv.write_list_to_csv()
-print(csv.df.to_markdown())
+        
+def start():
+    linklist, date = minePast()
+    #mineNow()
+    bundlelinks,bbclinks,hurriyetlinks,donanimlinks,ekonomimlinks,gazeteoksijenlinks,bloomberghtlinks,kayiprihtimlinks,getmidaslinks,haberturklinks = separete(linklist)
+    #i�eri�i ve kayna�� bulup csvye yazd�rma
+    csv = csvWriter()
+    #csv.bundletextGenerate()
+    csv.bbctextGenerate(bbclinks)
+    csv.donanimtextGenerate(donanimlinks)
+    csv.gazeteoksijentextGenerator(gazeteoksijenlinks)
+    csv.ekonomimtextGenerate(ekonomimlinks)
+    csv.hurriyettextGenerate(hurriyetlinks)
+    csv.bloomberghttextGenerator(bloomberghtlinks)
+    csv.haberturktextGenerator(haberturklinks)
+    csv.write_list_to_csv(date)
+    print(csv.df.to_markdown())
+    
+start()

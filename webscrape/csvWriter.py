@@ -7,30 +7,21 @@ import requests
 import pandas as pd
 
 class csvWriter:
-    def __init__(self, bundlelinks=None,bbclinks=None,hurriyetlinks=None,donanimlinks=None,ekonomimlinks=None,gazeteoksijenlinks=None
-                 ,bloomberghtlinks=None,kayiprihtimlinks=None,getmidaslinks=None,ntvlinks=None,haberturklinks=None, milliyetlinks=None):
-        self.bundlelinks = bundlelinks
-        self.bbclinks = bbclinks
-        self.hurriyetlinks = hurriyetlinks
-        self.donanimlinks = donanimlinks
-        self.ekonomimlinks = ekonomimlinks
-        self.gazeteoksijenlinks = gazeteoksijenlinks
-        self.bloomberghtlinks=bloomberghtlinks
-        self.kayiprihtimlinks=kayiprihtimlinks
-        self.getmidaslinks=getmidaslinks
-        self.haberturklinks=haberturklinks    
-        self.ntvlinks=ntvlinks
-        self.milliyetlinks=milliyetlinks
-        self.sourcelist = []
+    def __init__(self):
         self.df = pd.DataFrame(columns=['source', 'content'])
-    def bundletextGenerate(self):
-        for link in self.bundlelinks:
+    def htmlbeautrequest(self, link):
+        response = requests.get(link)
+        response.raise_for_status()  # Yanıt durumu 4xx veya 5xx ise istisna fırlatılır.
+        html = response.text
+        soup = BeautifulSoup(html , 'html.parser')
+        return soup
+    def bundletextGenerate(self,links):
+        for link in links:
+            
 
             try:
-                response = requests.get(link)
-                response.raise_for_status()  # Yanıt durumu 4xx veya 5xx ise istisna fırlatılır.
-                html = response.text
-                soup = BeautifulSoup(html , 'html.parser')
+                soup=self.htmlbeautrequest(link)
+                
                 #icergi al
                 divisionText = soup.findChild('div', {'class': 'bundleXPathBody'})
                 try:
@@ -66,11 +57,9 @@ class csvWriter:
                 print(link)
 
 
-    def bbctextGenerate(self):
-        for link in self.bbclinks:
-            response=requests.get(link)
-            html=response.text
-            soup=BeautifulSoup(html,'html.parser')
+    def bbctextGenerate(self,links):
+        for link in links:
+            soup=self.htmlbeautrequest(link)
             divisionText=soup.findChildren('div',{'class':"bbc-19j92fr ebmt73l0"})
             alltext=""
             for text in divisionText:
@@ -81,8 +70,8 @@ class csvWriter:
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['bbcturk'], 'content': [alltext]})])
 
             
-    def hurriyettextGenerate(self):
-        for link in self.hurriyetlinks:
+    def hurriyettextGenerate(self,links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             alltext=""
@@ -97,8 +86,8 @@ class csvWriter:
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['hurriyet'], 'content': [alltext]})])
 
                 
-    def donanimtextGenerate(self):
-        for link in self.donanimlinks: 
+    def donanimtextGenerate(self,links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             alltext=""
@@ -114,8 +103,8 @@ class csvWriter:
                 alltext="veri yok"
 
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['donanimhaber'], 'content': [alltext]})])          
-    def ekonomimtextGenerate(self):
-        for link in self.ekonomimlinks:
+    def ekonomimtextGenerate(self,links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             alltext=""
@@ -132,8 +121,8 @@ class csvWriter:
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['ekonomim.haber'], 'content': [alltext]})])
                 
      
-    def gazeteoksijentextGenerator(self):
-        for link in self.gazeteoksijenlinks:
+    def gazeteoksijentextGenerator(self, links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             alltext=""
@@ -150,8 +139,8 @@ class csvWriter:
                 alltext="sonucyok"
 
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['gazetoksijen'], 'content': [alltext]})])
-    def bloomberghttextGenerator(self):
-        for link in self.bloomberghtlinks:
+    def bloomberghttextGenerator(self, links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             alltext=""
@@ -170,8 +159,8 @@ class csvWriter:
                 divisionText="sonucyok"
                 alltext="sonucyok"
             self.df = pd.concat([self.df, pd.DataFrame({'source': ['bloomberght'], 'content': [alltext]})])
-    def kayiprihtimtextGenerator(self):
-        for link in self.kayiprihtimlinks:
+    def kayiprihtimtextGenerator(self, links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             soup=BeautifulSoup(html,'html.parser')
@@ -184,53 +173,88 @@ class csvWriter:
             except:
                 alltext="veri yok"
 
-    def getmidastextGenerator(self):
-        for link in self.getmidaslinks:
+    def getmidastextGenerator(self, links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             soup=BeautifulSoup(html,'html.parser')
-            divisionText=soup.findChild('article',{'class':'blog-detail-content'})
-            divisionText=divisionText.find_all('p')
-            for i in divisionText:
-                text=i.get_text()
-                alltext+=text
+            try:
+                divisionText=soup.findChild('article',{'class':'blog-detail-content'})
+                divisionText=divisionText.find_all('p')
+                for i in divisionText:
+                    text=i.get_text()
+                    alltext+=text
+            except:
+                print("bu link çalışmadı")
             
-    def haberturktextGenerator(self):
-        for link in self.haberturklinks:
+    def haberturktextGenerator(self, links):
+        for link in links:
             response=requests.get(link)
             html=response.text
             soup=BeautifulSoup(html,'html.parser')
-            divisionText=soup.findChild('div',{'class':'wrapper px-5 overflow-hidden'})
-            divisionText=divisionText.find_all('p')
-            for i in divisionText:
-                text=i.get_text()
-                alltext+=text
-            self.df = pd.concat([self.df, pd.DataFrame({'source': ['haberturk'], 'content': [alltext]})])
+            alltext=''
+            try:
+                divisionText=soup.findChildren('div',{'class':'wrapper'})
+                for i in divisionText:
+                    divisionText=i.find_all('p')
+
+                    for i in divisionText:
+                        text=i.get_text()
+                        print(text)
+                        alltext+=text
+                        
+
+                self.df = pd.concat([self.df, pd.DataFrame({'source': ['haberturk'], 'content': [alltext]})])
+            except Exception as e:
+                print(e, "bu link çalışmadı")
             
-    def ntvtextGenerator(self):
-        for link in self.ntvlinks:
-            response=requests.get(link)
+    def ntvtextGenerator(self, links):
+        for link in links:
+            response=requests.get(link, allow_redirects=True)
             html=response.text
             soup=BeautifulSoup(html,'html.parser')
-            divisionText=soup.findChild('div',{'class':'content-news-tag-selector'})
-            divisionText=divisionText.find_all('p')
-            for i in divisionText:
-                text=i.get_text()
-                alltext+=text
-            self.df = pd.concat([self.df, pd.DataFrame({'source': ['NTV'], 'content': [alltext]})])
-    def milliyettextGenerator(self):
-        for link in self.ntvlinks:
-            response=requests.get(link)
+            alltext=''
+            try:
+                divisionText=soup.findChild('div',{'class':'content-news-tag-selector'})
+                divisionText=divisionText.find_all('p')
+                for i in divisionText:
+                    text=i.get_text()
+                    alltext+=text
+                self.df = pd.concat([self.df, pd.DataFrame({'source': ['NTV'], 'content': [alltext]})])
+            except Exception as e:
+                print(e,"bu link calismadi" )
+    def milliyettextGenerator(self, links):
+        for link in links:
+            response=requests.get(link, allow_redirects=True)
             html=response.text
             soup=BeautifulSoup(html,'html.parser')
-            divisionText=soup.findChild('div',{'class':'news-content news-content readingTime'})
-            divisionText=divisionText.find_all('p')
-            for i in divisionText:
-                text=i.get_text()
-                alltext+=text
-            self.df = pd.concat([self.df, pd.DataFrame({'source': ['NTV'], 'content': [alltext]})])
+            alltext=''
+            try:
+                divisionText=soup.findChild('div',{'class':'news-content news-content readingTime'})
+                divisionText=divisionText.find_all('p')
+                for i in divisionText:
+                    text=i.get_text()
+                    alltext+=text
+                self.df = pd.concat([self.df, pd.DataFrame({'source': ['Milliyet'], 'content': [alltext]})])
+            except:
+                print("bu link çalışmadı")
+    def sabahtextGenerator(self,links):
+        for link in links:
+            response=requests.get(link)
+            html=response.text
+            alltext=""
+            soup=BeautifulSoup(html,'html.parser')
+            try:
+                divisionText=soup.findChild('div',{'class':"newsDetailText"})
+                for i in divisionText:
+                    text=i.get_text()
+                    alltext+=text
+                self.df = pd.concat([self.df, pd.DataFrame({'source': ['SABAH'], 'content': [alltext]})])
 
-
-    def write_list_to_csv(self):
-        self.df.to_csv('11-3-2023.csv', index=False)
+            except:
+                alltext="sonucyok"
+            
+    def write_list_to_csv(self,date):
+        filename=f"{date}.csv"
+        self.df.to_csv(filename, index=False)
         
