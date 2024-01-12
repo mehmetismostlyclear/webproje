@@ -28,6 +28,7 @@ class FlipboardScraper:
         # Kaydolma iþlemini baþlatýn
         signup_button = self.browser.find_element(By.XPATH, "//button[@type='submit']")
         signup_button.click()
+        time.sleep(60)
 
     def changetheMedia(self, media_url):
         self.browser.get(media_url)
@@ -39,7 +40,7 @@ class FlipboardScraper:
     def get_linksflipboard(self):
         linklist = []
         for i in range(0, 1):
-            self.browser.execute_script("window.scrollBy(0, 800);")
+            self.browser.execute_script("window.scrollBy(0, 1000);")
             time.sleep(2)
             try:
                 item = self.browser.find_element(By.CLASS_NAME, 'page')
@@ -83,5 +84,4 @@ csv = csvWriter()
 #csv.haberturktextGenerator(haberturk_links)
 #csv.milliyettextGenerator(milliyet_links)
 csv.sabahtextGenerator(sabah_links)
-csv.write_list_to_csv('11-5-23')
-
+csv.write_list_to_csv('sabah-11-22-2023')

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6d1bdbc4-b96e-4ba5-8910-cccb692e45c4}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>webscrape\flipboardscrape.py</StartupFile>
+    <StartupFile>webscrape\scrape.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

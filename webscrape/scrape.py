@@ -19,7 +19,7 @@ linklist = []
 #scroll eder
 def get_links():
     linklist=[]
-    for i in range(0, 20):
+    for i in range(0, 80):
         browser.execute_script("window.scrollBy(0, 600);")
         time.sleep(2)
 
@@ -82,12 +82,12 @@ def minePast():
         
         
 def start():
-    linklist, date = minePast()
-    #mineNow()
+    #linklist, date = minePast()
+    mineNow()
     bundlelinks,bbclinks,hurriyetlinks,donanimlinks,ekonomimlinks,gazeteoksijenlinks,bloomberghtlinks,kayiprihtimlinks,getmidaslinks,haberturklinks = separete(linklist)
     #i�eri�i ve kayna�� bulup csvye yazd�rma
     csv = csvWriter()
-    #csv.bundletextGenerate()
+    csv.bundletextGenerate(bundlelinks)
     csv.bbctextGenerate(bbclinks)
     csv.donanimtextGenerate(donanimlinks)
     csv.gazeteoksijentextGenerator(gazeteoksijenlinks)
@@ -95,7 +95,7 @@ def start():
     csv.hurriyettextGenerate(hurriyetlinks)
     csv.bloomberghttextGenerator(bloomberghtlinks)
     csv.haberturktextGenerator(haberturklinks)
-    csv.write_list_to_csv(date)
+    csv.write_list_to_csv('1.06.2024')
     print(csv.df.to_markdown())
     
 start()
